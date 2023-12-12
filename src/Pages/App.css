@@ -66,6 +66,18 @@
   color: black;
 }
 
+@keyframes floatingAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .floating-paper {
   text-align: center;
   justify-content: center;
@@ -74,7 +86,8 @@
   flex-direction: column;
   padding: 20px;
   max-width: 400px;
-  margin: 100px auto; 
+  margin: 100px auto;
+  animation: floatingAnimation 2s ease-in-out infinite; /* Apply the float animation */
 }
 
 .floating-paper h6 {
