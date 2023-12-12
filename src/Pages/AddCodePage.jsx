@@ -1,19 +1,18 @@
-// AddCodePage.jsx
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { Paper, Select, MenuItem, InputLabel } from '@mui/material';
+import { Paper, Select, MenuItem, InputLabel, Alert } from '@mui/material';
 
 const AddCodePage = ({ setCodes }) => {
   const [codeName, setCodeName] = useState('');
   const [codeKey, setCodeKey] = useState('');
-  const [category, setCategory] = useState(''); // Added state for category
+  const [category, setCategory] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
 
-  const isInputValid = codeName.length >= 1 && codeKey.length >= 1 && category.length > 0; // Check if category is selected
+  const isInputValid = codeName.length >= 1 && codeKey.length >= 1 && category.length > 0;
 
   const addCode = () => {
     if (isInputValid) {
@@ -22,6 +21,10 @@ const AddCodePage = ({ setCodes }) => {
       setCodes((prevCodes) => {
         const newCode = { id: `${Date.now()}`, name: codeName, code: randomCode, expiration, category };
         localStorage.setItem('codes', JSON.stringify([...prevCodes, newCode]));
+        setShowAlert(true);
+        setCodeName('');
+        setCodeKey('');
+        setCategory('');
         return [...prevCodes, newCode];
       });
     }
@@ -29,6 +32,10 @@ const AddCodePage = ({ setCodes }) => {
 
   const calculateNewExpiration = () => {
     return Math.floor(Date.now() / 1000) + 60;
+  };
+
+  const handleCloseAlert = () => {
+    setShowAlert(false);
   };
 
   return (
@@ -79,7 +86,10 @@ const AddCodePage = ({ setCodes }) => {
           <MenuItem value="Facebook">Facebook</MenuItem>
           <MenuItem value="Twitter">Twitter</MenuItem>
           <MenuItem value="Instagram">Instagram</MenuItem>
-          {/* Add more MenuItem elements for additional categories */}
+          <MenuItem value="Reddit">Reddit</MenuItem>
+          <MenuItem value="Steam">Steam</MenuItem>
+          <MenuItem value="Google">Google</MenuItem>
+          <MenuItem value="Microsoft">Microsoft</MenuItem>
         </Select>
         <Button
           sx={{ marginTop: 1 }}
@@ -88,7 +98,7 @@ const AddCodePage = ({ setCodes }) => {
           disabled={!isInputValid}
           mb={2}
         >
-          Add Code
+          Add 
         </Button>
         <Link to="/" style={{ textDecoration: 'none' }}>
           <Button
@@ -99,6 +109,11 @@ const AddCodePage = ({ setCodes }) => {
           </Button>
         </Link>
       </Paper>
+      {showAlert && (
+        <Alert severity="success"  onClose={handleCloseAlert} open={showAlert}>
+          Token added successfully!
+        </Alert>
+      )}
     </Box>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './HomePage';
-import AddCodePage from './AddCodePage';
+import HomePage from './Pages/HomePage';
+import AddCodePage from './Pages/AddCodePage';
 
 const App = () => {
   const storedCodes = localStorage.getItem('codes');
